@@ -34,6 +34,11 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 //Disable CORS
 app.use((req, res, next) => {
   res.header({ "Access-Control-Allow-Origin": "*" });
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
   next();
 });
 
@@ -65,6 +70,13 @@ app.post("/api", (req, res) => {
   } else {
     res.status(400).send("Please provide make, model and seats.");
   }
+});
+
+//DELETE endpoint that deletes a car with a given id
+app.delete("/api/:id", (req, res) => {
+  const carToDelete = cars[req.carIndex];
+  cars.splice(req.carIndex, 1);
+  res.send(carToDelete);
 });
 
 // All other GET requests not handled before will return our React app

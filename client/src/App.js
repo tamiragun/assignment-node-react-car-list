@@ -65,6 +65,22 @@ function App() {
     setCar(null);
   };
 
+  const deleteCar = (id) => {
+    const url = `http://localhost:3001/api/${id}`;
+    console.log("delete car" + id);
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: null,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success, deleted: ", data);
+      });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -81,7 +97,7 @@ function App() {
             </div>
           )
         ) : (
-          <Car car={car} goBack={goBack} />
+          <Car car={car} goBack={goBack} deleteCar={deleteCar} />
         )}
       </div>
     </div>
