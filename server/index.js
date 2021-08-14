@@ -4,12 +4,58 @@ const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+//Import the list of cars from a json file
+const cars = require("./cars.json");
+
+//Set latestId, to be updated each time a new car is added.
+let latestId = 2;
+
+//Check if a given car id is in the list, and return the index
+app.param("id", (req, res, next, id) => {
+  let carId = Number(id);
+  try {
+    const found = cars.findIndex((car) => {
+      return carId === car.id;
+    });
+    if (found !== -1) {
+      req.carIndex = found;
+      next();
+    } else {
+      res.status(404).send("No such car found");
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-// Handle GET requests to /api route
+//GET endpoint that returns an array of cars:
 app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+  res.json({ cars: cars });
+});
+// Handle GET requests to /api route
+// app.get("/api", (req, res) => {
+//   res.json({ message: "Hello from server!" });
+// });
+
+//POST endpoint that adds a car to the array:
+app.post("/api", (req, res) => {
+  const make = req.query.make;
+  const model = req.query.model;
+  const seats = Number(req.query.seats);
+
+  if (make && model && seats) {
+    const id = latestId + 1;
+    latestId++;
+    const newCar = { id: id, make: make, model: model, seats: seats };
+    const newCarJson = JSON.stringify(newCar);
+    cars.push(newCar);
+    res.status(201).send("Successfully added: " + newCarJson);
+  } else {
+    res.status(400).send("Please provide make, model and seats.");
+  }
 });
 
 // All other GET requests not handled before will return our React app
