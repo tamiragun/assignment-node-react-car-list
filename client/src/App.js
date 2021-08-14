@@ -1,18 +1,13 @@
 import React from "react";
 import { CarList } from "./components/CarList";
 import { AddCar } from "./components/AddCar";
+import { Car } from "./components/Car";
 import "./App.css";
 
 function App() {
-  //const [data, setData] = React.useState(null);
   const [cars, setCars] = React.useState(null);
   const [newCar, setNewCar] = React.useState(null);
-
-  // React.useEffect(() => {
-  //   fetch("/api")
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data.message));
-  // }, []);
+  const [car, setCar] = React.useState(null);
 
   React.useEffect(() => {
     fetch("/api")
@@ -50,15 +45,44 @@ function App() {
       });
   };
 
+  const displayCar = (id) => {
+    const url = `http://localhost:3001/api/${id}`;
+    fetch(url)
+      //.then((response) => {
+      //  console.log(response);
+      //})
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success, displaying: ", data);
+        setCar(data.carToDisplay);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const goBack = () => {
+    setCar(null);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>My favourite cars</h1>
       </header>
       <div>
-        {/* <p>{!data ? "Loading..." : data}</p> */}
-        <AddCar addNewCar={addNewCar} />
-        {!cars ? "Loading..." : <CarList cars={cars} />}
+        {!car ? (
+          !cars ? (
+            "Loading..."
+          ) : (
+            <div>
+              <AddCar addNewCar={addNewCar} />
+              <CarList cars={cars} displayCar={displayCar} />
+            </div>
+          )
+        ) : (
+          <Car car={car} goBack={goBack} />
+        )}
       </div>
     </div>
   );

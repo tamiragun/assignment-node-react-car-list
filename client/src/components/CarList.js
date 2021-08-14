@@ -2,6 +2,10 @@ import React from "react";
 
 export function CarList(props) {
   const cars = props.cars;
+  const handleClick = (e) => {
+    console.log(e.target.value);
+    props.displayCar(e.target.value);
+  };
   const carList = cars.map((car) => {
     return (
       <li key={car.id} className="car-bullet">
@@ -10,7 +14,10 @@ export function CarList(props) {
           Model: {car.model} <br></br>
           Seats: {car.seats}
         </p>
-        <a href="http://localhost:3000/">View, edit, or delete this car</a>
+
+        <button value={car.id} onClick={handleClick}>
+          View, edit, or delete this car
+        </button>
       </li>
     );
   });

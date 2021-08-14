@@ -31,14 +31,23 @@ app.param("id", (req, res, next, id) => {
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
+//Disable CORS
+app.use((req, res, next) => {
+  res.header({ "Access-Control-Allow-Origin": "*" });
+  next();
+});
+
 //GET endpoint that returns an array of cars:
 app.get("/api", (req, res) => {
   res.json({ cars: cars });
 });
-// Handle GET requests to /api route
-// app.get("/api", (req, res) => {
-//   res.json({ message: "Hello from server!" });
-// });
+
+//GET endpoint that displays a car with a given id
+app.get("/api/:id", (req, res) => {
+  const carToDisplay = cars[req.carIndex];
+  console.log(carToDisplay);
+  res.send({ carToDisplay: carToDisplay });
+});
 
 //POST endpoint that adds a car to the array:
 app.post("/api", (req, res) => {
