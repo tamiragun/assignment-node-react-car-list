@@ -3,7 +3,6 @@ import { EditCar } from "./EditCar";
 
 export function Car(props) {
   const handleClick = (e) => {
-    console.log(e.target.value);
     props.deleteCar(e.target.value);
     props.goBack();
   };
@@ -23,7 +22,11 @@ export function Car(props) {
         <button value={props.car.id} onClick={handleClick}>
           Delete this car
         </button>
-        <EditCar />
+        <EditCar
+          updateCar={props.updateCar}
+          carId={props.car.id}
+          goBack={props.goBack}
+        />
         <button onClick={props.goBack}>Go back</button>
       </div>
     </div>

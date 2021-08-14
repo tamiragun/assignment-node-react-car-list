@@ -48,13 +48,10 @@ function App() {
   const displayCar = (id) => {
     const url = `http://localhost:3001/api/${id}`;
     fetch(url)
-      //.then((response) => {
-      //  console.log(response);
-      //})
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success, displaying: ", data);
-        setCar(data.carToDisplay);
+        console.log("Success, displaying car: ", data);
+        setCar(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -67,7 +64,6 @@ function App() {
 
   const deleteCar = (id) => {
     const url = `http://localhost:3001/api/${id}`;
-    console.log("delete car" + id);
     fetch(url, {
       method: "DELETE",
       headers: {
@@ -78,7 +74,22 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success, deleted: ", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
+  };
+
+  const updateCar = (id, model, seats) => {
+    const url = `http://localhost:3001/api/${id}?model=${model}&seats=${seats}`;
+    console.log(`update car ${id} to have model: ${model}, seats: ${seats}`);
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: null,
+    });
   };
 
   return (
@@ -97,7 +108,12 @@ function App() {
             </div>
           )
         ) : (
-          <Car car={car} goBack={goBack} deleteCar={deleteCar} />
+          <Car
+            car={car}
+            goBack={goBack}
+            deleteCar={deleteCar}
+            updateCar={updateCar}
+          />
         )}
       </div>
     </div>

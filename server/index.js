@@ -50,8 +50,7 @@ app.get("/api", (req, res) => {
 //GET endpoint that displays a car with a given id
 app.get("/api/:id", (req, res) => {
   const carToDisplay = cars[req.carIndex];
-  console.log(carToDisplay);
-  res.send({ carToDisplay: carToDisplay });
+  res.send(carToDisplay);
 });
 
 //POST endpoint that adds a car to the array:
@@ -77,6 +76,24 @@ app.delete("/api/:id", (req, res) => {
   const carToDelete = cars[req.carIndex];
   cars.splice(req.carIndex, 1);
   res.send(carToDelete);
+});
+
+//PUT endpoint that updates a car with a given id and seats or model
+app.put("/api/:id", (req, res) => {
+  //If neither model nor seats are provided, give error message
+  if (!req.query.model && !req.query.seats) {
+    res.status(400).send("Please enter the new model and/or seats value");
+  }
+  //If the model is given, update the object
+  if (req.query.model) {
+    cars[req.carIndex].model = req.query.model;
+  }
+  //If the seats are given, update the object
+  if (req.query.seats) {
+    cars[req.carIndex].seats = Number(req.query.seats);
+  }
+  const updatedCar = JSON.stringify(cars[req.carIndex]);
+  res.send("Successfully updated car " + req.carIndex + " to: " + updatedCar);
 });
 
 // All other GET requests not handled before will return our React app
