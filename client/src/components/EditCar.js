@@ -20,7 +20,6 @@ export class EditCar extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.props.carId, this.state.model, this.state.seats);
     this.props.updateCar(this.props.carId, this.state.model, this.state.seats);
     this.setState({ model: "", seats: 0 });
     this.props.goBack();

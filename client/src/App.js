@@ -6,7 +6,6 @@ import "./App.css";
 
 function App() {
   const [cars, setCars] = React.useState(null);
-  const [newCar, setNewCar] = React.useState(null);
   const [car, setCar] = React.useState(null);
 
   React.useEffect(() => {
@@ -18,28 +17,22 @@ function App() {
   }, [cars]);
 
   const addNewCar = (make, model, seats) => {
-    console.log(`Add car with make :${make}, model: ${model}, seats: ${seats}`);
-    setNewCar({ make: make, model: model, seats: seats });
-    const newCar = { make: make, model: model, seats: seats };
-    console.log(newCar);
-
     const newCarMake = make;
     const newCarModel = model;
     const newCarSeats = seats;
     const url = `http://localhost:3001/api?make=${newCarMake}&model=${newCarModel}&seats=${newCarSeats}`;
     fetch(url, {
       method: "POST",
-      mode: "no-cors",
+      //mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newCar),
+      body: null,
     })
-      .then((response) => console.log(response))
-      //.then((response) => response.json())
-      //.then((data) => {
-      //  console.log("Success:", data);
-      //})
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success, added car:", data);
+      })
       .catch((error) => {
         console.error("Error:", error);
       });
@@ -82,14 +75,20 @@ function App() {
 
   const updateCar = (id, model, seats) => {
     const url = `http://localhost:3001/api/${id}?model=${model}&seats=${seats}`;
-    console.log(`update car ${id} to have model: ${model}, seats: ${seats}`);
     fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: null,
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`Success, updated car ${data.id} to: `, data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (

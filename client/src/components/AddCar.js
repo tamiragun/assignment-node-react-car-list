@@ -22,7 +22,7 @@ export class AddCar extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state.make, this.state.model, this.state.seats);
+    //console.log(this.state.make, this.state.model, this.state.seats);
     this.props.addNewCar(this.state.make, this.state.model, this.state.seats);
     this.setState({ make: "", model: "", seats: 0 });
   }

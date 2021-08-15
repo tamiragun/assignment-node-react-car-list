@@ -3,7 +3,6 @@ import React from "react";
 export function CarList(props) {
   const cars = props.cars;
   const handleClick = (e) => {
-    console.log(e.target.value);
     props.displayCar(e.target.value);
   };
   const carList = cars.map((car) => {

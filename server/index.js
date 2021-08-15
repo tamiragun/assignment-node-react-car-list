@@ -63,9 +63,8 @@ app.post("/api", (req, res) => {
     const id = latestId + 1;
     latestId++;
     const newCar = { id: id, make: make, model: model, seats: seats };
-    const newCarJson = JSON.stringify(newCar);
     cars.push(newCar);
-    res.status(201).send("Successfully added: " + newCarJson);
+    res.status(201).send(newCar);
   } else {
     res.status(400).send("Please provide make, model and seats.");
   }
@@ -92,8 +91,8 @@ app.put("/api/:id", (req, res) => {
   if (req.query.seats) {
     cars[req.carIndex].seats = Number(req.query.seats);
   }
-  const updatedCar = JSON.stringify(cars[req.carIndex]);
-  res.send("Successfully updated car " + req.carIndex + " to: " + updatedCar);
+  const updatedCar = cars[req.carIndex];
+  res.send(updatedCar);
 });
 
 // All other GET requests not handled before will return our React app
