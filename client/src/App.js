@@ -17,17 +17,17 @@ function App() {
   }, [cars]);
 
   const addNewCar = (make, model, seats) => {
-    const newCarMake = make;
-    const newCarModel = model;
-    const newCarSeats = seats;
-    const url = `/api?make=${newCarMake}&model=${newCarModel}&seats=${newCarSeats}`;
+    const url = `/api`;
     fetch(url, {
       method: "POST",
-      //mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
-      body: null,
+      body: JSON.stringify({
+        make: make,
+        model: model,
+        seats: seats,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -74,13 +74,16 @@ function App() {
   };
 
   const updateCar = (id, model, seats) => {
-    const url = `/api/${id}?model=${model}&seats=${seats}`;
+    const url = `/api/${id}`;
     fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: null,
+      body: JSON.stringify({
+        model: model,
+        seats: seats,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {

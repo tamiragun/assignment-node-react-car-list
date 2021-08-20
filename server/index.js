@@ -4,6 +4,9 @@ const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+//Parse all body data to JSON:
+app.use(express.json());
+
 //Import the list of cars from a json file
 const cars = require("./cars.json");
 
@@ -55,14 +58,15 @@ app.get("/api/:id", (req, res) => {
 
 //POST endpoint that adds a car to the array:
 app.post("/api", (req, res) => {
-  const make = req.query.make;
-  const model = req.query.model;
-  const seats = Number(req.query.seats);
-
-  if (make && model && seats) {
+  if (req.body.make && req.body.model && req.body.seats) {
     const id = latestId + 1;
     latestId++;
-    const newCar = { id: id, make: make, model: model, seats: seats };
+    const newCar = {
+      id: id,
+      make: req.body.make,
+      model: req.body.model,
+      seats: Number(req.body.seats),
+    };
     cars.push(newCar);
     res.status(201).send(newCar);
   } else {
@@ -80,16 +84,16 @@ app.delete("/api/:id", (req, res) => {
 //PUT endpoint that updates a car with a given id and seats or model
 app.put("/api/:id", (req, res) => {
   //If neither model nor seats are provided, give error message
-  if (!req.query.model && !req.query.seats) {
+  if (!req.body.model && !req.body.seats) {
     res.status(400).send("Please enter the new model and/or seats value");
   }
   //If the model is given, update the object
-  if (req.query.model) {
-    cars[req.carIndex].model = req.query.model;
+  if (req.body.model) {
+    cars[req.carIndex].model = req.body.model;
   }
   //If the seats are given, update the object
-  if (req.query.seats) {
-    cars[req.carIndex].seats = Number(req.query.seats);
+  if (req.body.seats) {
+    cars[req.carIndex].seats = Number(req.body.seats);
   }
   const updatedCar = cars[req.carIndex];
   res.send(updatedCar);
