@@ -9,9 +9,12 @@ export function CarList(props) {
     return (
       <li key={car.id} className="car-bullet">
         <p>
-          Make: {car.make} <br></br>
-          Model: {car.model} <br></br>
-          Seats: {car.seats}
+          <strong>Make: </strong>
+          {car.make} <br></br>
+          <strong>Model: </strong>
+          {car.model} <br></br>
+          <strong>Seats: </strong>
+          {car.seats}
         </p>
 
         <button value={car.id} onClick={handleClick}>
@@ -21,5 +24,10 @@ export function CarList(props) {
     );
   });
 
-  return <ul className="cars-list">{carList}</ul>;
+  return (
+    <div>
+      <h3>All my cars:</h3>
+      <ul className="cars-list">{carList}</ul>
+    </div>
+  );
 }

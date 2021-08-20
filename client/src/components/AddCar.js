@@ -29,9 +29,9 @@ export class AddCar extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="add-car">
         <h3>Add a new car</h3>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="car-form">
           <label htmlFor="make">Make:</label>
           <input
             id="make"
@@ -40,6 +40,7 @@ export class AddCar extends React.Component {
             onChange={this.handleUserInput}
             required
           ></input>
+          <br></br>
           <label htmlFor="model">Model:</label>
           <input
             id="model"
@@ -48,6 +49,7 @@ export class AddCar extends React.Component {
             onChange={this.handleUserInput}
             required
           ></input>
+          <br></br>
           <label htmlFor="seats">Seats:</label>
           <input
             id="seats"
@@ -56,6 +58,7 @@ export class AddCar extends React.Component {
             onChange={this.handleUserInput}
             required
           ></input>
+          <br></br>
           <button type="submit">Add car</button>
         </form>
       </div>

@@ -28,8 +28,8 @@ export class EditCar extends React.Component {
   render() {
     return (
       <div>
-        <h3>Edit car</h3>
-        <form onSubmit={this.handleSubmit}>
+        <h3>Edit car model or seats</h3>
+        <form onSubmit={this.handleSubmit} className="car-form">
           <label htmlFor="model">Model:</label>
           <input
             id="model"
@@ -37,6 +37,7 @@ export class EditCar extends React.Component {
             value={this.state.model}
             onChange={this.handleUserInput}
           ></input>
+          <br></br>
           <label htmlFor="seats">Seats:</label>
           <input
             id="seats"
@@ -44,7 +45,8 @@ export class EditCar extends React.Component {
             value={this.state.seats}
             onChange={this.handleUserInput}
           ></input>
-          <button type="submit">Edit car</button>
+          <br></br>
+          <button type="submit">Submit</button>
         </form>
       </div>
     );
