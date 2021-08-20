@@ -13,17 +13,6 @@ const cars = require("./cars.json");
 //Set latestId, to be updated each time a new car is added.
 let latestId = 2;
 
-// Have Node serve the files for our built React app
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
-
-//app.use(express.static(path.resolve(__dirname, "../client/build")));
-
 //Check if a given car id is in the list, and return the index
 app.param("id", (req, res, next, id) => {
   let carId = Number(id);
@@ -107,6 +96,17 @@ app.put("/api/:id", (req, res) => {
   res.send(updatedCar);
 });
 
+// Have Node serve the files for our built React app
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+  // All other GET requests not handled before will return our React app
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
+//app.use(express.static(path.resolve(__dirname, "../client/build")));
 // All other GET requests not handled before will return our React app
 // app.get("*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
