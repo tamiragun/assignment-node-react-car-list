@@ -22,7 +22,6 @@ export class AddCar extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    //console.log(this.state.make, this.state.model, this.state.seats);
     this.props.addNewCar(this.state.make, this.state.model, this.state.seats);
     this.setState({ make: "", model: "", seats: 0 });
   }
@@ -56,6 +55,7 @@ export class AddCar extends React.Component {
             type="number"
             value={this.state.seats}
             onChange={this.handleUserInput}
+            min="1"
             required
           ></input>
           <br></br>
