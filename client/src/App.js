@@ -20,7 +20,7 @@ function App() {
     const newCarMake = make;
     const newCarModel = model;
     const newCarSeats = seats;
-    const url = `http://localhost:3001/api?make=${newCarMake}&model=${newCarModel}&seats=${newCarSeats}`;
+    const url = `/api?make=${newCarMake}&model=${newCarModel}&seats=${newCarSeats}`;
     fetch(url, {
       method: "POST",
       //mode: "no-cors",
@@ -39,7 +39,7 @@ function App() {
   };
 
   const displayCar = (id) => {
-    const url = `http://localhost:3001/api/${id}`;
+    const url = `/api/${id}`;
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -56,7 +56,7 @@ function App() {
   };
 
   const deleteCar = (id) => {
-    const url = `http://localhost:3001/api/${id}`;
+    const url = `/api/${id}`;
     fetch(url, {
       method: "DELETE",
       headers: {
@@ -74,7 +74,7 @@ function App() {
   };
 
   const updateCar = (id, model, seats) => {
-    const url = `http://localhost:3001/api/${id}?model=${model}&seats=${seats}`;
+    const url = `/api/${id}?model=${model}&seats=${seats}`;
     fetch(url, {
       method: "PUT",
       headers: {
